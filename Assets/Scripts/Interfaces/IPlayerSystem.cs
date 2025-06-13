@@ -19,6 +19,7 @@ namespace SkillTreeSurvivor
         void TakeDamage(float damage);
         void Heal(float amount);
         void AddXP(int amount);
+        void DeductXP(int amount);
         void ApplySkillEffect(ISkillEffect effect);
         void Update();
         Vector3 GetMovementInput();

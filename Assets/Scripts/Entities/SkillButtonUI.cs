@@ -35,7 +35,6 @@ namespace SkillTreeSurvivor
         // UI state tracking
         private SkillButtonState _currentState = SkillButtonState.Locked;
         private SkillButtonState _previousState = SkillButtonState.Locked;
-        private bool _isHovered = false;
         private float _stateTime = 0f;
         
         // Animation and effects

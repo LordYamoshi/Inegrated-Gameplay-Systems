@@ -157,6 +157,18 @@ namespace SkillTreeSurvivor
             
             Debug.Log($"Player gained {modifiedAmount} XP (base: {amount}, multiplier: {XPMultiplier:F2}). Total XP: {_currentXP}");
         }
+        
+        public void DeductXP(int amount)
+        {
+            if (amount <= 0 || _currentXP <= 0) return;
+            
+            _previousXP = _currentXP;
+            _currentXP = Mathf.Max(0, _currentXP - amount);
+            
+            PublishXPChanged("XP Deduction");
+            
+            Debug.Log($"Player deducted {amount} XP. Total XP: {_currentXP}");
+        }
 
         public void ApplySkillEffect(ISkillEffect effect)
         {

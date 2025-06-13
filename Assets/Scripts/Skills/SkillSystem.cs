@@ -111,12 +111,7 @@ namespace SkillTreeSurvivor
 
         public void Update()
         {
-            // Update skill availability indicators
-            // This could be optimized to only update when XP or unlocked skills change
-            UpdateSkillAvailability();
             
-            // Process any pending skill effects
-            ProcessPendingEffects();
         }
 
         public SkillDefinition GetSkillById(string skillId)
@@ -145,8 +140,7 @@ namespace SkillTreeSurvivor
         #region Internal Methods (Used by Commands)
 
         /// <summary>
-        /// Internal method used by UnlockSkillCommand
-        /// Should not be called directly - use UnlockSkill instead
+        /// Internal method to unlock a skill 
         /// </summary>
         internal void InternalUnlockSkill(SkillDefinition skill)
         {
@@ -177,7 +171,7 @@ namespace SkillTreeSurvivor
         }
 
         /// <summary>
-        /// Internal method to remove a skill (for undo functionality)
+        /// Internal method to remove a skill
         /// </summary>
         internal void InternalRemoveSkill(SkillDefinition skill)
         {
@@ -211,19 +205,7 @@ namespace SkillTreeSurvivor
             }
             return true;
         }
-
-        private void UpdateSkillAvailability()
-        {
-            // This could trigger UI updates or other system notifications
-            // For now, it's mainly for internal state management
-        }
-
-        private void ProcessPendingEffects()
-        {
-            // Handle any time-based or conditional skill effects
-            // For now, all effects are immediate, but this is where 
-            // temporary effects would be processed
-        }
+        
 
         #endregion
 
@@ -309,7 +291,7 @@ namespace SkillTreeSurvivor
         }
 
         /// <summary>
-        /// Undo the last skill unlock (for testing/debugging)
+        /// Undo the last skill unlock
         /// </summary>
         public void UndoLastSkillUnlock()
         {
@@ -329,7 +311,7 @@ namespace SkillTreeSurvivor
         }
 
         /// <summary>
-        /// Reset all skills (for testing/debugging)
+        /// Reset all skills
         /// </summary>
         public void ResetAllSkills()
         {
@@ -415,9 +397,7 @@ namespace SkillTreeSurvivor
     #region Command Pattern Implementation
 
     /// <summary>
-    /// Pure C# Command Pattern - Encapsulates skill unlock as an object
-    /// Allows for undo functionality and command queuing
-    /// NO Unity dependencies
+    /// Command to unlock a skill
     /// </summary>
     public class UnlockSkillCommand : ICommand
     {
@@ -448,9 +428,8 @@ namespace SkillTreeSurvivor
             }
 
             _playerXPBefore = _playerSystem.XP;
-            
-            // Note: In a full implementation, this would deduct XP from the player
-            // For the prototype, we're not actually deducting XP to make testing easier
+            // Deduct XP from player
+            _playerSystem.DeductXP(_skill.Cost);
             
             // Mark skill as unlocked in the system
             _skillSystem.InternalUnlockSkill(_skill);
